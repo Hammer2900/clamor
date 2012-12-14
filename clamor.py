@@ -24,7 +24,7 @@ from bottle import route, run, request, error, abort, redirect
 import MySQLdb as mysql, bottle
 from hashlib import new
 from sessions import Session
-from paste import httpserver
+# from paste import httpserver
 from cgi import escape
 
 # Constants (ok, variables) that will be used throughout the site
@@ -627,6 +627,6 @@ def unban_ip(entry):
     db.close()
     redirect('/admin/bans')
 
-# Uncomment next line and comment the line after that to switch from the Paste server to the default Bottle server
-# run(host=site_host, port=80)
-httpserver.serve(bottle.default_app(), host=site_host, port=80)
+run(host=site_host, port=80)
+# Uncomment the next line and the Paste import function at the beginning of the file, and comment out the line above this to switch to a production server using Paste
+# httpserver.serve(bottle.default_app(), host=site_host, port=80)
