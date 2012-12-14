@@ -16,17 +16,20 @@ class Session(object):
             response.set_cookie('PYSESSID', sid)
             sid = new('sha1', sid + request['REMOTE_ADDR']).hexdigest()
             self.data[sid] = {}
-        if not(request.get_cookie('PYSESSID')) or not(self.data.has_key(new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest())):
-            self.data[new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest()] = {}
+        try:
+            if not(self.data.has_key(new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest())):
+                self.data[new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest()] = {}
+        except:
+            pass
     def set(self, n, v):
         try:
             sid = new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest()
             self.data[sid][n] = v
-        except KeyError:
+        except:
             pass
     def get(self, n):
-        sid = new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest()
         try:
+            sid = new('sha1', request.get_cookie('PYSESSID') + request['REMOTE_ADDR']).hexdigest()
             return self.data[sid][n]
-        except KeyError:
+        except:
             return None
