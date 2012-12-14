@@ -1,0 +1,24 @@
+DOCUMENTATION
+---------------------------------------------------------------------------------------------------------------------------
+
+I. DEPENDENCIES
+	1. Windows/Mac/Linux
+	2. Python 2.7.x
+	3. Modules that aren't included in the standard Python distro (and where to find them):
+		a. Bottle (bottlepy.com)
+		b. Paste (pythonpaste.org) (OPTIONAL, SEE VERY BOTTOM OF "CLAMOR.PY")
+		c. MySQLdb (sourceforge.net/projects/mysql-python)
+		d. Sessions (included in Clamor distro, under "sessions.py")
+	4. MySQL 5.0 or above
+
+II. SETUP
+	1. Make sure you've read Section I (and acted upon it)
+	2. Create a database on your MySQL server
+	3. Run "db.sql" to prepare the database
+	4. Change the variables at the beginning of "clamor.py"
+	5. Make sure there are no conflicts on port 80 of your host
+	6. Run "clamor.py"
+	7. Open the web browser of your choice
+	8. Navigate to "/admin" on your server
+	9. Fill out and submit the form
+	10. Explore the features of Clamor!
