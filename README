@@ -23,6 +23,14 @@ II. SETUP
 	9. Fill out and submit the form
 	10. Explore the features of Clamor!
 
+III. HOW TO SETUP THE PASTE SERVER
+	When you're ready to go live and publish your microforum, the default Bottle server is like a bottleneck (pun intended), as it can only handle one request at a time. The best way to solve this problem is to use the Paste web server.
+	1. Get Paste (pythonpaste.org)
+	2. Uncomment the last line of "clamor.py"
+	3. Comment out the third to last line of "clamor.py"
+	4. Uncomment the line at the top of "clamor.py" where it says "from paste import httpserver"
+	5. And you're ready to go!
+
 ----------------------------------------------------------------------------------------------
 SESSIONS
 ----------------------------------------------------------------------------------------------
@@ -35,4 +43,4 @@ I. DEPENDENCIES
 II. SETUP
 	1. Place sessions.py in the desired folder so it can be accessed by whatever module you want to use it with
 	2. Type "import sessions" or "from sessions import Session" into the target module
-	3. See further documentation in "sessions.py" or see real example of usage in "clamor.py"
+	3. See further documentation in "sessions.py" or see a real example of usage in "clamor.py"
