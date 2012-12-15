@@ -1,6 +1,44 @@
-# The unofficial Sessions addon for Bottle (bottlepy.org)
-# Made by Magnie (magnie.tk) and Ohaider (fallingduck.tk)
-# License: MIT
+#############################################################
+# The unofficial Sessions addon for Bottle (bottlepy.org)   #
+# Made by Magnie (magnie.tk) and Ohaider (fallingduck.tk)   #
+# License: MIT                                              #
+#############################################################
+
+#################
+# DOCUMENTATION
+#################
+# Dependencies: Bottle (bottlepy.com)
+# Commands:
+#   sessions.Session()
+#       This class should be initialized at the start of the server, and will run throughout the server's existence
+#   Session.start()
+#       Should be called on each page that uses sessions, it initializes the user's session, or if the user already has an active session, pulls the info to the front
+#   Session.set(name, value)
+#       Set a name and value pair for the user's current session
+#   Session.get(name)
+#       Returns the value for the name key, or None if key doesn't exist
+#################
+# EXAMPLE
+#################
+# from sessions import Session
+# from bottle import route, run, redirect
+#
+# session = Session()
+#
+# @route('/')
+# def hello():
+#   global session
+#   session.start()
+#   session.set('name', 'World')
+#   redirect('/hello')
+#
+# @route('/hello')
+#   global session
+#   session.start()
+#   if not(session.get('name')):
+#       redirect('/')
+#   return 'Hello, ' + session.get('name') + '!'
+#################
 
 from random import randint
 from time import time

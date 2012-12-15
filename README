@@ -1,4 +1,4 @@
-DOCUMENTATION
+CLAMOR
 ----------------------------------------------------------------------------------------------
 
 I. DEPENDENCIES
@@ -22,3 +22,17 @@ II. SETUP
 	8. Navigate to "/admin" on your server
 	9. Fill out and submit the form
 	10. Explore the features of Clamor!
+
+----------------------------------------------------------------------------------------------
+SESSIONS
+----------------------------------------------------------------------------------------------
+
+I. DEPENDENCIES
+	1. Windows/Mac/Linux
+	2. Python 2.7.x
+	3. Bottle (bottlepy.com)
+
+II. SETUP
+	1. Place sessions.py in the desired folder so it can be accessed by whatever module you want to use it with
+	2. Type "import sessions" or "from sessions import Session" into the target module
+	3. See further documentation in "sessions.py" or see real example of usage in "clamor.py"
