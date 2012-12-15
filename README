@@ -1,3 +1,28 @@
+INTRODUCTION
+----------------------------------------------------------------------------------------------
+
+I. INTRODUCTION
+As you already know, Clamor is a completely open source, accountless forum software. But what can it DO? To begin with, when you're on the home page of a Clamor forum, you'll see a list of channels. Click on any channel and you'll be taken to the channel's page. On that page, you're able to write a new post, and you can see the previous 50 posts arranged newest at the top, oldest at the bottom.
+You'll note at this point that you don't even need an account to post. Just pick a nickname, and voice your thoughts! But, you ask, how is it moderated? Clamor's moderation system is fairly unique. There are three levels of moderators:
+	1. Moderator (can delete posts, ban users, and view user IPs)
+	2. Admin (can do everything that a mod can do, but can also add new moderator accounts and promote/demote existing moderators and admins)
+	3. Owner (can do everything that an admin can do, except can't be demoted)
+A Clamor distro will only ever have 1 owner. The only thing that sets the owner apart from the admin is the owner's impunity. People who post to the forum are monitored via their recorded IP addresses. With a simple click, a moderator can view all the posts from a user's IP, and can even delete any post. With a few more clicks, a moderator can ban an offender's IP.
+In order for someone to be a moderator, their account must first be created by an admin. After that, the admin can also promote a mod to admin, demote an admin to mod, or even delete an admin account. The owner is absolute to prevent an admin from hijacking a Clamor forum.
+
+II. FAQ
+	1. What inspired Clamor?
+		a. To be honest, my primary inspiration was 4chan. Although I never go on 4chan and don't recommend you do either, I liked the basic concept behind it. I originally marketed Clamor as a sort of chatbox, but I like the term "microforum" better.
+	2. Can I do whatever I want with it?
+		a. Yep! Just give the software credit in a way that neither expresses no implies that I condone your use of it. Also, follow the instructions in the conveniently provided LICENSE file.
+	3. What if I don't want to use the moderation features?
+		a. Don't then! But you do realize that 80% of my work coding Clamor was working on the easy-to-use moderation software, right? But if you really don't care about all my hard work, don't use it.
+	4. Why did you choose Bottle?
+		a. I especially liked the ease of use and installation. I wanted to start programming sites in Python, and it has gotten good press. Shortly after I discovered Bottle, I wanted to start a major project in it. I chose Clamor because I had already made a PHP version which wasn't nearly as advanced as I liked it.
+	5. Who are you?
+		a. I'm a hobbyist programmer who's been programming for over 4 years. I started with HTML, moved to JS, then PHP, and finally Python. Now, with a repertoir of 6 languages under my belt, I've decided to concentrate on a serious project.
+
+----------------------------------------------------------------------------------------------
 CLAMOR
 ----------------------------------------------------------------------------------------------
 
