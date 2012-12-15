@@ -26,6 +26,7 @@ from hashlib import new
 from sessions import Session
 # from paste import httpserver
 from cgi import escape
+from time import time
 
 # Constants (ok, variables) that will be used throughout the site
 connect = "mysql.connect('{0}', '{1}', '{2}', '{3}')".format(mysql_hostname, mysql_username, mysql_password, mysql_database)
@@ -145,6 +146,12 @@ def record_post(chan):
         if int(c.rowcount):
             db.close()
             return header + '<p style="color: #F00;">Your IP has been banned because: ' + c.fetchone()[0] + '</p>' + footer
+        c.execute("SELECT UNIX_TIMESTAMP(date) FROM posts WHERE ip=%s ORDER BY date DESC LIMIT 1;", (ip,))
+        if int(c.rowcount):
+            t = c.fetchone()
+            if int(time()) - int(t[0]) < 120:
+                db.close()
+                return header + '<p style="color: #F00;">At least 2 minutes must pass between posts. Please wait a while and try again!</p>' + footer
         c.execute("INSERT INTO posts (id, room_id, nick, posting, date, ip) VALUES (0, %s, %s, %s, NOW(), %s);", (chan, nick, posting, ip))
         db.commit()
         db.close()
@@ -470,7 +477,7 @@ def view_ip(ip='0.0.0.0'):
     content = header + '<h1>Posts by ' + ip + '</h1><hr />'
     db = eval(connect)
     c = db.cursor()
-    c.execute("SELECT id, nick, posting, date FROM posts WHERE ip=%s;", (ip,))
+    c.execute("SELECT id, nick, posting, date FROM posts WHERE ip=%s ORDER BY date DESC LIMIT 50;", (ip,))
     if int(c.rowcount):
         for i in range(int(c.rowcount)):
             t = c.fetchone()
