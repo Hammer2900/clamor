@@ -86,7 +86,7 @@ def show_index():
     return content
 
 # Dynamic page for each channel
-# Shown here for everybody: post new message, view the newest 20 messages, report a message
+# Shown here for everybody: post new message, view the newest 50 messages, report a message
 # Shown here for mods: view all posts from an IP, delete post
 @route('/<chan:int>')
 def show_channel(chan):
@@ -107,7 +107,7 @@ def show_channel(chan):
 <tr><td><label for="posting">Post:</label></td><td><input type="text" name="posting" id="posting" maxlength="1000" size="50" />&nbsp;<input type="submit" value="Post" /></td></tr>
 </table>
 </form>'''
-        c.execute("SELECT id, nick, posting, date, ip FROM posts WHERE room_id=%s ORDER BY date DESC LIMIT 20;", (chan,))
+        c.execute("SELECT id, nick, posting, date, ip FROM posts WHERE room_id=%s ORDER BY date DESC LIMIT 50;", (chan,))
         if int(c.rowcount):
             for i in range(int(c.rowcount)):
                 t = c.fetchone()
