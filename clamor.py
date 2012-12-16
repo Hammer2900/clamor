@@ -24,9 +24,11 @@ from bottle import route, run, request, error, abort, redirect
 import MySQLdb as mysql, bottle
 from hashlib import new
 from sessions import Session
-# from paste import httpserver
 from cgi import escape
 from time import time
+
+# Uncomment the next line to setup the Paste server
+# from paste import httpserver
 
 # Constants (ok, variables) that will be used throughout the site
 connect = "mysql.connect('{0}', '{1}', '{2}', '{3}')".format(mysql_hostname, mysql_username, mysql_password, mysql_database)
@@ -37,12 +39,19 @@ header = '''<!DOCTYPE html>
 <style type="text/css">
 body {width: 800px; margin-right: auto; margin-left: auto;}
 a {text-decoration: none; color: #00F;}
+.headerlink {margin-left: 5px; text-decoration: none; font-family: Arial; font-size: 10pt; color: #FFF;}
+.headerlink:hover {color: #FF0; text-decoration: none;}
+header {position: fixed; top: 0px; width: 800px; background-color: #000; padding: 2px;}
 a:hover {text-decoration: underline;}
 .post {border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
 .date {color: #CCC; float: right;}
 </style>
 </head>
-<body>'''
+<body>
+<header>
+<a href="/" class="headerlink"><b>Home</b></a>
+<a href="/admin" class="headerlink"><b>Admin</b></a>
+</header>'''
 footer = '''</body>
 </html>'''
 session = Session()
