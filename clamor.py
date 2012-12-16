@@ -44,7 +44,6 @@ a {text-decoration: none; color: #00F;}
 header {position: fixed; top: 0px; width: 800px; background-color: #000; padding: 2px;}
 a:hover {text-decoration: underline;}
 .post {border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
-.homepost {width: 500px; border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
 .date {color: #CCC; float: right;}
 </style>
 </head>
@@ -97,13 +96,13 @@ def show_index():
     content += '''</div>
 <div style="float: right;">
 <h4>Recent Posts</h4>'''
-    c.execute("SELECT room_id, nick, posting, date FROM posts ORDER BY date DESC LIMIT 20;")
+    c.execute("SELECT room_id, nick, posting FROM posts ORDER BY date DESC LIMIT 10;")
     if int(c.rowcount):
         for i in range(int(c.rowcount)):
             t = list(c.fetchone())
-            if len(t[2]) > 80:
-                t[2] = t[2][:80] + '...'
-            content += '<div class="homepost"><b>' + t[1] + '</b><span class="date">' + str(t[3]) + '</span><span class="link">&nbsp;<a href="/' + str(t[0]) + '">More</a></span><br />' + t[2] + '</div>'
+            if len(t[2]) > 50:
+                t[2] = t[2][:50] + '...'
+            content += '<div><a href="/' + str(t[0]) + '">' + t[1] + ': ' + t[2] + '</div>'
     content += '</div>' + footer
     return content
 
