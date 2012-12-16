@@ -12,7 +12,7 @@ mysql_password = 'password'
 mysql_database = 'clamor'
 site_host = '0.0.0.0' # Leave this the way it is to serve on any server, make it specific to bind to a specific address
 site_title = 'Clamor'
-site_desc = 'Welcome to Clamor, a microforum where you can join in conversations anonymously. Please keep it clean and respectful, because mods do know your IP and they will ban you and/or remove your offending posts if need be. Have fun!'
+site_desc = 'Welcome to Clamor, a microforum where you can join in conversations anonymously.'
 
 
 # Dependencies outside of normal Python 2.7 installation:
@@ -37,13 +37,14 @@ header = '''<!DOCTYPE html>
 <head>
 <title>''' + site_title + '''</title>
 <style type="text/css">
-body {width: 800px; margin-right: auto; margin-left: auto;}
+body {width: 800px; margin-right: auto; margin-left: auto; margin-top: 25px;}
 a {text-decoration: none; color: #00F;}
 .headerlink {margin-left: 5px; text-decoration: none; font-family: Arial; font-size: 10pt; color: #FFF;}
 .headerlink:hover {color: #FF0; text-decoration: none;}
 header {position: fixed; top: 0px; width: 800px; background-color: #000; padding: 2px;}
 a:hover {text-decoration: underline;}
 .post {border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
+.homepost {width: 500px; border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
 .date {color: #CCC; float: right;}
 </style>
 </head>
@@ -79,20 +80,31 @@ def show_index():
     session.start()
     content = header + '''<h1>''' + site_title.upper() + '''</h1>
 <p>''' + site_desc + '''</p>
-<hr />'''
+<hr />
+<div style="float: left;">
+<h4>All Channels</h4>'''
     db = eval(connect)
     c = db.cursor()
     c.execute("SELECT * FROM rooms;")
-    for i in range(c.rowcount):
+    for i in range(int(c.rowcount)):
         t = c.fetchone()
         content += '<div><a href="/' + str(int(t[0])) + '">' + t[1] + '</a>'
         if session.get('username'):
             content += '&nbsp;[<a href="/admin/delchan/' + str(int(t[0])) + '">Delete</a>]'
         content += '</div>'
-    db.close()
     if session.get('username'):
         content += '<p><a href="/admin/add">Add Channel</a></p>'
-    content += footer
+    content += '''</div>
+<div style="float: right;">
+<h4>Recent Posts</h4>'''
+    c.execute("SELECT room_id, nick, posting, date FROM posts ORDER BY date DESC LIMIT 20;")
+    if int(c.rowcount):
+        for i in range(int(c.rowcount)):
+            t = list(c.fetchone())
+            if len(t[2]) > 80:
+                t[2] = t[2][:80] + '...'
+            content += '<div class="homepost"><b>' + t[1] + '</b><span class="date">' + str(t[3]) + '</span><span class="link">&nbsp;<a href="/' + str(t[0]) + '">More</a></span><br />' + t[2] + '</div>'
+    content += '</div>' + footer
     return content
 
 # Dynamic page for each channel
