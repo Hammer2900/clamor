@@ -129,7 +129,7 @@ def show_channel(chan):
 <tr><td><label for="posting">Post:</label></td><td><input type="text" name="posting" id="posting" maxlength="1000" size="50" />&nbsp;<input type="submit" value="Post" /></td></tr>
 </table>
 </form>'''
-        c.execute("SELECT id, nick, posting, date, ip FROM posts WHERE room_id=%s ORDER BY date DESC LIMIT 50;", (chan,))
+        c.execute("SELECT id, nick, posting, date, ip FROM posts WHERE room_id=%s ORDER BY date DESC LIMIT 20;", (chan,))
         if int(c.rowcount):
             for i in range(int(c.rowcount)):
                 t = c.fetchone()
@@ -498,7 +498,7 @@ def view_ip(ip='0.0.0.0'):
     content = header + '<h1>Posts by ' + ip + '</h1><hr />'
     db = eval(connect)
     c = db.cursor()
-    c.execute("SELECT id, nick, posting, date FROM posts WHERE ip=%s ORDER BY date DESC LIMIT 50;", (ip,))
+    c.execute("SELECT id, nick, posting, date FROM posts WHERE ip=%s ORDER BY date DESC LIMIT 20;", (ip,))
     if int(c.rowcount):
         for i in range(int(c.rowcount)):
             t = c.fetchone()
