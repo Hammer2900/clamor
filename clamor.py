@@ -372,8 +372,7 @@ def confirm_delete_chan(chan):
 <a href="/">NO! Take me back!</a></p>
 </div>''' + footer
 
-# Delete a channel
-# DOES NOT DELETE POSTS IN A CHANNEL, SO A CHANNEL CAN BE RESURRECTED
+# Delete a channel and all of its posts
 @route('/admin/delchan/<chan:int>', method='POST')
 def delete_chan(chan):
     global connect, session
@@ -383,6 +382,7 @@ def delete_chan(chan):
     db = eval(connect)
     c = db.cursor()
     c.execute('DELETE FROM rooms WHERE id=%s;', (chan,))
+    c.execute('DELETE FROM posts WHERE room_id=%s;', (chan,))
     db.commit()
     db.close()
     redirect('/')
