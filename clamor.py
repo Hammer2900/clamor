@@ -44,7 +44,6 @@ a {text-decoration: none; color: #00F;}
 header {position: fixed; top: 0px; width: 800px; background-color: #000; padding: 2px;}
 a:hover {text-decoration: underline;}
 .post {border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
-.homepost {width: 500px; border: 1px solid #000; padding: 5px; margin-bottom: 5px;}
 .date {color: #CCC; float: right;}
 </style>
 </head>
@@ -97,13 +96,13 @@ def show_index():
     content += '''</div>
 <div style="float: right;">
 <h4>Recent Posts</h4>'''
-    c.execute("SELECT room_id, nick, posting, date FROM posts ORDER BY date DESC LIMIT 20;")
+    c.execute("SELECT room_id, nick, posting FROM posts ORDER BY date DESC LIMIT 10;")
     if int(c.rowcount):
         for i in range(int(c.rowcount)):
             t = list(c.fetchone())
-            if len(t[2]) > 80:
-                t[2] = t[2][:80] + '...'
-            content += '<div class="homepost"><b>' + t[1] + '</b><span class="date">' + str(t[3]) + '</span><span class="link">&nbsp;<a href="/' + str(t[0]) + '">More</a></span><br />' + t[2] + '</div>'
+            if len(t[2]) > 50:
+                t[2] = t[2][:50] + '...'
+            content += '<div><a href="/' + str(t[0]) + '">' + t[1] + ': ' + t[2] + '</div>'
     content += '</div>' + footer
     return content
 
@@ -373,8 +372,7 @@ def confirm_delete_chan(chan):
 <a href="/">NO! Take me back!</a></p>
 </div>''' + footer
 
-# Delete a channel
-# DOES NOT DELETE POSTS IN A CHANNEL, SO A CHANNEL CAN BE RESURRECTED
+# Delete a channel and all of its posts
 @route('/admin/delchan/<chan:int>', method='POST')
 def delete_chan(chan):
     global connect, session
@@ -384,6 +382,7 @@ def delete_chan(chan):
     db = eval(connect)
     c = db.cursor()
     c.execute('DELETE FROM rooms WHERE id=%s;', (chan,))
+    c.execute('DELETE FROM posts WHERE room_id=%s;', (chan,))
     db.commit()
     db.close()
     redirect('/')
@@ -654,6 +653,27 @@ def unban_ip(entry):
     db.commit()
     db.close()
     redirect('/admin/bans')
+
+# Get a specific slic of posts in a specific channel
+@route('/<chan:int>/<page:int>')
+def slice_pie(chan, page):
+    global connect, session
+    session.start()
+    page = page * 20
+    db = eval(connect)
+    c = db.cursor()
+    c.execute("SELECT id, nick, posting, date, ip FROM posts WHERE room_id=%s ORDER BY date DESC LIMIT 20 OFFSET %s;", (chan, page))
+    content = ''
+    for i in range(int(c.rowcount)):
+        t = c.fetchone()
+        content += '<div class="post"><b>' + t[1] + '</b><span class="date">' + str(t[3]) + '</span><span class="link">&nbsp;'
+        if session.get('username'):
+            content += '<a href="/admin/delpost/' + str(t[0]) + '">Delete</a>&nbsp;<a href="/admin/viewip/' + t[4] + '">View IP</a>'
+        else:
+            content += '<a href="/admin/report/' + str(t[0]) + '">Report</a>'
+        content += '</span><br />' + t[2] + '</div>'
+    db.close()
+    return content
 
 run(host=site_host, port=80)
 # Uncomment the next line and the Paste import function at the beginning of the file, and comment out the line above this to switch to a production server using Paste
